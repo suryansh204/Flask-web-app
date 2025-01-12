@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Competitor Details</h2>
+    <hr>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ competitor.name }}</h4>
+            <p class="card-text"><strong>Website:</strong> <a href="{{ competitor.website }}" target="_blank">{{ competitor.website }}</a></p>
+            <hr>
+            <h5>Actions</h5>
+            <form action="{{ url_for('views.delete_competitor', id=competitor.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+            <form action="{{ url_for('views.scrape_data', competitor_id=competitor.id) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-success btn-sm">Scrape Data</button>
+            </form>
+            <a href="{{ url_for('views.visualize_data', competitor_id=competitor.id) }}" class="btn btn-info btn-sm">Visualize Data</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

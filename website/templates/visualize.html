@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Visualization for {{ competitor.name }}</h2>
+    <canvas id="priceChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    // Pass product data from Flask to JavaScript
+    const productData = {{ product_data | tojson }};
+
+    // Extract labels (product names) and data (prices)
+    const labels = productData.map(product => product.name);
+    const data = productData.map(product => product.price);
+
+    // Chart.js Configuration
+    const ctx = document.getElementById('priceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar', // Change to 'line', 'pie', etc., if needed
+        data: {
+            labels: labels, // Product names
+            datasets: [{
+                label: 'Prices ($)',
+                data: data, // Product prices
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true // Ensure the y-axis starts at 0
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
